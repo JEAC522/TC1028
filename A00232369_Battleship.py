@@ -1,5 +1,9 @@
-# Josué Aldaco
-# A00232369
+# Proyecto Battleship
+# Josué Aldaco _ Gustavo Lares
+# A00232369 _ A01254066
+# TC1028 Gpo 3
+# 18 Oct 2021
+
 
 from random import randint
 
@@ -16,7 +20,8 @@ def print_board(board):
     for row in board:
         print (" ".join(row))
 
-print("Let´s play Battleship")
+print("Bienvenido a Battleship de Josué y Gustavo")
+print("En este juego, ustedes trataran de adivinaran la fila y la columna en la que las naves se encuentran, los turnos seran altenados, empezando con el jugador 1 y siguiendo con el jugador 2, cada jugador dispone de 4 intentos, Nota: Las filas y las columnas van del 0 al 4")
 print_board(board)
 
 def random_row(board):
@@ -40,22 +45,37 @@ puntos2=0
 for turn in range(8):
     print ("Turn", turn + 1)
     
-    guess_row = int(input("Guess Row: "))
-    guess_col = int(input("Guess Col: "))
+    guess_row = int(input("Adivine la fila: "))
+    guess_col = int(input("Adivine la columna: "))
 
     if (guess_row == ship_row and guess_col == ship_col) or (guess_row == ship2_row and guess_col == ship2_col) or (guess_row == ship3_row and guess_col == ship3_col):
-        print("Congratulations! You sank a battleship")
+        print("ACERTASTE, Nave enemiga eliminada")
+        tablero = open("Tablero.txt","r")
+        tab = tablero.read()
+        tablero.close()
+        tab=list(tab)
+        tab[guess_row*5 + guess_col] = "T"
+        t=""
+        for i in tab:
+            t=t+i
+        tablero = open("Tablero.txt","w")
+        tablero.write(t)
+        tablero.close()
+        board[guess_row][guess_col] = "T"
+        if turn == 7:
+            print("El juego termino")
+        print_board(board)
         if turn % 2 == 0:
             puntos2 = puntos2+1
         else:
             puntos=puntos+1
     else:
         if guess_row > (4) or guess_col > (4):
-            print("Oops, that´s not even in the ocean")
+            print("FALLASTE, Ese punto no se encuentra en el oceano")
         elif board[guess_row][guess_col] == "X":
-            print("You guessed that one already")
+            print("FALLASTE, Ya introduciste ese punto repetidamente")
         else:
-            print("You missed my battleship!")
+            print("FALLASTE, No se acerto en la nave")
             tablero = open("Tablero.txt","r")
             tab = tablero.read()
             tablero.close()
@@ -69,7 +89,7 @@ for turn in range(8):
             tablero.close()
             board[guess_row][guess_col] = "X"
             if turn == 7:
-                print("Game over")
+                print("El juego termino")
             print_board(board)
 
 if puntos > puntos2:
@@ -77,4 +97,4 @@ if puntos > puntos2:
 elif puntos2>puntos:
     print("Gano jugador 2")
 else:
-    print("Empate")
+    print(" Ambos jugadores obtuvieron los mismos puntos, es un Empate")
