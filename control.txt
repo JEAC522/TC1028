@@ -1,0 +1,3 @@
+2 este reglon es para el turno del jugador
+5 este reglon es para el score del jugador 1
+0 este reglon es pare el score del jugador 2
